@@ -1,3 +1,4 @@
+/*
 package blockchain
 
 import (
@@ -144,3 +145,4 @@ func ValidateChain(chain *Chain) (bool, error) {
 
     return true, nil
 }
+*/
