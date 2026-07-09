@@ -1,0 +1,35 @@
+//hash tampering --<case 1
+fmt.Println("\n---Case 1 ; hash Tampering ---")
+chain.Blocks[1].Txns[0].Amount = 5000 //malicious change
+ok, err := ValidateChain(&chain)
+if !ok {
+	fmt.Println("Chain is invalid:", err)
+}else{
+	fmt.Println("Chain is valid.")
+}
+
+
+//Reset chain back to valid state
+chain.Blocks[1] = NewBlock(genesis, txns, 1)
+
+//link tampering -->case 2
+fmt.Println("\n---Case 2: Link Tampering ---")
+chain.Blocks[1].PreviousHash = "1234567890abcdef"
+ok, err = ValidateChain(&chain)
+if !ok {
+	fmt.Println("Chain invalid:", err)
+}else{
+	fmt.Println("Chain is valid.")
+}
+
+//Reset chain back to valid state
+chain.Blocks[1] = NewBlock(genesis, txns, 1)
+
+//Overspending <--Case 3
+
+fmt.Println("\n---Case 3:Overspending ---")
+overspendTxns := []Transaction{
+	{Sender:"alice", Recipient :"bob", Amount:5000},
+}
+overspendBlock := NewBlock(chain.Blocks[1], overspendTxns,2)
+chain.Blocks = append(chain.Blocks, overspendBlock)
