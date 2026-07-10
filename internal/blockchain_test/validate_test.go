@@ -9,7 +9,7 @@ import (
 	"strings"
 )
 
-func TestValidateChain_TamperedHash(t *testing.T) {
+func TestValidateChain_TamperedHash (t *testing.T){
 	withDifficulty := func(d int, fn func()) {
 		old := blockchain.Difficulty
 		blockchain.Difficulty = d
@@ -23,7 +23,7 @@ func TestValidateChain_TamperedHash(t *testing.T) {
 			{Sender: "coinbase", Recipient: "alice", Amount: 1002},
 		}, time.Now().Unix())
 		// tamper
-		blk.Txns[2].Amount = 1003
+		blk.Txns[1].Amount = 1003
 		chain := blockchain.Chain{Blocks: []blockchain.Block{g, blk}}
 		ok, err := blockchain.ValidateChain(&chain)
 
