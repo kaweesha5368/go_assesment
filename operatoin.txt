@@ -1,0 +1,25 @@
+----------------------------------------------------------  OPERATION  -------------------------------------------------------
+
+move to the project root directory
+
+--> to add a transaction | .\toychain tx add --from {sender_name} --to {reciever_name} --amt {amount}
+
+--> to mine the block | .\toychain mine --miner {miner name} --reward {reward}
+
+--> to print the chain | .\toychain print
+
+--> to print the balance | .\toychain balances
+
+--> to validate the chain | .\toychain validate
+
+--> to print current pool | .\toychain pool
+
+----------------------------------------------------------  TESTING  -------------------------------------------------------
+
+move to internal\blockchain_test
+
+--> to test mining | go test -v -run ^TestNewBlockAndMineLowDifficulty$ .
+
+--> to test ledger and transactions | go test -v -run ^TestRebuildfromChain_Overspend$ .
+
+--> to test validation | go test -v -run ^TestValidateChain_TamperedHash$ .
