@@ -1,3 +1,4 @@
+
 package cli
 
 import (
@@ -32,3 +33,4 @@ var balancesCmd = &cobra.Command{
         return nil
     },
 }
+

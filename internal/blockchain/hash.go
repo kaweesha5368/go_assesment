@@ -1,3 +1,4 @@
+
 package blockchain
 
 import (
@@ -16,3 +17,4 @@ func HashBlock(b *Block) string {
     sum := sha256.Sum256(buf.Bytes())
     return hex.EncodeToString(sum[:])
 }
+

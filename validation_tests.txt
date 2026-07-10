@@ -1,3 +1,4 @@
+
 //hash tampering --<case 1
 fmt.Println("\n---Case 1 ; hash Tampering ---")
 chain.Blocks[1].Txns[0].Amount = 5000 //malicious change

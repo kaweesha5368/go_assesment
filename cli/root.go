@@ -1,3 +1,4 @@
+
 package cli
 
 import (
@@ -20,5 +21,4 @@ func Execute() {
         os.Exit(1)
     }
 }
-
 
