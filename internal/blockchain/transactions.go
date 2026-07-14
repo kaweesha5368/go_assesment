@@ -43,3 +43,16 @@ func (l *Ledger) RebuildfromChain(chain *Chain) (int, error) {
     }
     return -1, nil
 }
+
+
+func (l *Ledger) RebuildForPool(tx *Transaction)( error){
+    l.Balances = make(map[string]int64)
+    if tx.Sender != "coinbase" {
+                if l.GetBalance(tx.Sender) < tx.Amount {
+                    return fmt.Errorf("overspend by %s in block %d", tx.Sender)
+                }
+                l.Balances[tx.Sender] -= tx.Amount
+            }
+
+            return nil
+}

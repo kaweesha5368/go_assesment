@@ -17,10 +17,17 @@ var poolCli = &cobra.Command{
     Short: "Print the transaction waiting in the pool",
     RunE: func(cmd *cobra.Command, args []string) error {
         poolPath := dataDir + "/pool.json"
-        var transaction blockchain.Transaction
-        if err := storage.LoadJSON(poolPath, &transaction);err !=nil{
+        var transactions []blockchain.Transaction
+        if err := storage.LoadJSON(poolPath, &transactions); err !=nil{
             return fmt.Errorf("could not load pool: %v", err)
         }
-        for _, b :=range pool
-    }
+      
+      for _, t := range transactions {
+        fmt.Printf(" %s -> %s : %d\n", t.Sender, t.Recipient, t.Amount)
+      }
+            fmt.Println("----")
+
+            return nil
+    },
+
 }
