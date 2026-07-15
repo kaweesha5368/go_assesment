@@ -1,7 +1,8 @@
-
 package blockchain_test
 
 import (
+	//"fmt"
+	"fmt"
 	"testing"
 	"time"
 
@@ -9,7 +10,7 @@ import (
 	"strings"
 )
 
-func TestValidateChain_TamperedHash (t *testing.T){
+func TestValidateChain_TamperedHash(t *testing.T) {
 	withDifficulty := func(d int, fn func()) {
 		old := blockchain.Difficulty
 		blockchain.Difficulty = d
@@ -23,10 +24,12 @@ func TestValidateChain_TamperedHash (t *testing.T){
 			{Sender: "coinbase", Recipient: "alice", Amount: 1002},
 		}, time.Now().Unix())
 		// tamper
-		blk.Txns[1].Amount = 1003
+		fmt.Println(blk.Txns[0].Amount)
+		blk.Txns[0].Amount = 1003
+		//when blk.Txns is 1002 test fails as it can't find a mismatch between the original and modified amounts
 		chain := blockchain.Chain{Blocks: []blockchain.Block{g, blk}}
 		ok, err := blockchain.ValidateChain(&chain)
-
+        
 		if ok {
 			t.Fatalf("expected ValidateChain to return ok=false for tampered chain")
 		}
