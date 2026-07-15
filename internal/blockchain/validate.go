@@ -1,7 +1,9 @@
-
 package blockchain
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 func ValidateChain(chain *Chain) (bool, error) {
     for i := 1; i < len(chain.Blocks); i++ {
@@ -11,9 +13,14 @@ func ValidateChain(chain *Chain) (bool, error) {
         if HashBlock(&current) != current.Hash {
             return false, fmt.Errorf("tampered hash at block %d", current.Index)
         }
+        targetPrefix :=strings.Repeat("0",GetDifficulty())
+        if !strings.HasPrefix(current.Hash,targetPrefix){
+            return false, fmt.Errorf("block %d does not meet difficulty target",current.Index)
+        }
         if current.PreviousHash != prev.Hash {
             return false, fmt.Errorf("broken chain link at block %d", current.Index)
         }
+
     }
 
     ledger := NewLedger()
