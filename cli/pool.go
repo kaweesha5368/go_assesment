@@ -1,11 +1,13 @@
 package cli
 
 import (
-   "fmt"
+	"fmt"
+	"os"
 
-    "github.com/spf13/cobra"
-    "go_assesment/internal/blockchain"
-    "go_assesment/internal/storage"
+	"go_assesment/internal/blockchain"
+	"go_assesment/internal/storage"
+
+	"github.com/spf13/cobra"
 )
 
 func init(){
@@ -17,6 +19,9 @@ var poolCli = &cobra.Command{
     Short: "Print the transaction waiting in the pool",
     RunE: func(cmd *cobra.Command, args []string) error {
         poolPath := dataDir + "/pool.json"
+        if err := os.MkdirAll(dataDir, 0o755); err != nil {
+			return fmt.Errorf("There is no directory to store pool or chain and failed to create dataDir: %w", err)
+		}
         var transactions []blockchain.Transaction
         if err := storage.LoadJSON(poolPath, &transactions); err !=nil{
             return fmt.Errorf("could not load pool: %v", err)

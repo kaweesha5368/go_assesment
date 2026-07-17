@@ -2,6 +2,7 @@ package cli
 
 import (
 	"fmt"
+	"os"
 	"time"
 
 	"go_assesment/internal/blockchain"
@@ -24,6 +25,10 @@ var txAddCli = &cobra.Command{
 	Use:   "tx add",
 	Short: "Add transaction to pending pool",
 	RunE: func(cmd *cobra.Command, args []string) error {
+
+		if err := os.MkdirAll(dataDir, 0o755); err != nil {
+			return fmt.Errorf("There is no directory to store pool or chain and failed to create dataDir: %w", err)
+		}
 
 		chainPath := dataDir + "/chain.json"
 		chainLock, err := storage.LockFile(chainPath, 5*time.Second)

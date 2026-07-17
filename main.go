@@ -1,4 +1,3 @@
-
 package main
 
 import "go_assesment/cli"

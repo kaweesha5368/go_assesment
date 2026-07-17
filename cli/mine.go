@@ -2,11 +2,13 @@ package cli
 
 import (
 	"fmt"
+	"os"
 	"time"
 
-	"github.com/spf13/cobra"
 	"go_assesment/internal/blockchain"
 	"go_assesment/internal/storage"
+
+	"github.com/spf13/cobra"
 )
 
 var miner string
@@ -26,6 +28,12 @@ var mineCli = &cobra.Command{
 		poolPath := dataDir + "/pool.json"
 
 		// lock chain and pool
+		
+        if err := os.MkdirAll(dataDir, 0o755); err != nil {
+			return fmt.Errorf("There is no directory to store pool or chain and failed to create dataDir: %w", err)
+		}
+
+
 		chainLock, err := storage.LockFile(chainPath, 5*time.Second)
 		if err != nil {
 			return err

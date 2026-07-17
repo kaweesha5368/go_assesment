@@ -1,0 +1,3 @@
+# Ignore runtime data and lock files
+data/
+*.lock

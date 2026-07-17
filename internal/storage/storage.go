@@ -17,6 +17,11 @@ func ensureDir(path string) error {
     return os.MkdirAll(dir, 0o755)
 }
 
+func EnsureDir(path string) error {
+    dir := filepath.Dir(path)
+    return os.MkdirAll(dir,0o755)
+}
+
 func atomicWriteFile(path string, data []byte) error {
     if err := ensureDir(path); err != nil {
         return err
@@ -35,6 +40,7 @@ func SaveJSON(path string, v interface{}) error {
     }
     return atomicWriteFile(path, b)
 }
+
 
 func LoadJSON(path string, v interface{}) error {
     _, err := os.Stat(path)

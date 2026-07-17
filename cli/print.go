@@ -1,12 +1,13 @@
-
 package cli
 
 import (
-    "fmt"
+	"fmt"
+	"os"
 
-    "github.com/spf13/cobra"
-    "go_assesment/internal/blockchain"
-    "go_assesment/internal/storage"
+	"go_assesment/internal/blockchain"
+	"go_assesment/internal/storage"
+
+	"github.com/spf13/cobra"
 )
 
 func init() {
@@ -18,6 +19,11 @@ var printCli = &cobra.Command{
     Short: "Print the chain in readable form",
     RunE: func(cmd *cobra.Command, args []string) error {
         chainPath := dataDir + "/chain.json"
+
+        if err := os.MkdirAll(dataDir, 0o755); err != nil {
+			return fmt.Errorf("There is no directory to store pool or chain and failed to create dataDir: %w", err)
+		}
+
         var chain blockchain.Chain
         if err := storage.LoadJSON(chainPath, &chain); err != nil {
             return fmt.Errorf("could not load chain: %v", err)
