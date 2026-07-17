@@ -1,3 +1,4 @@
+
 package blockchain
 /*
 import (
@@ -39,4 +40,5 @@ func TxLeafHash(tx Transaction) []byte{
 	s := fmt.Sprintf("%s|%s|%d|%d|%x|%x|%x",tx.Sender,tx.Recipient,tx.Amount,tx.Nonce,tx.PubKey,tx.SigR,tx.SigS)
 	h:=sha256.Sum256([]byte(s))
 	return h[:]
-}*/
+}
+	*/
