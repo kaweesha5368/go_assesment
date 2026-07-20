@@ -2,6 +2,8 @@ package cli
 
 import (
 	"fmt"
+	"path/filepath"
+
 	"os"
 	"time"
 
@@ -26,8 +28,41 @@ var txAddCli = &cobra.Command{
 	Short: "Add transaction to pending pool",
 	RunE: func(cmd *cobra.Command, args []string) error {
 
+
+		var name string;
+
 		if err := os.MkdirAll(dataDir, 0o755); err != nil {
 			return fmt.Errorf("There is no directory to store pool or chain and failed to create dataDir: %w", err)
+		}
+
+			tx :=blockchain.Transaction{
+			Sender: txFrom,
+			Recipient: txTo,
+			Amount: txAmt,
+			Nonce: time.Now().UnixMilli(),
+		}
+
+		switch tx.Sender {
+case "alice":name = "/alice.json"
+	case "bob":name = "/bob.json"
+case "kamal":name = "/kamal.json"
+default:
+	return fmt.Errorf("Sender not found : %s" ,tx.Sender)}
+
+
+		senderPrivKey, err := blockchain.LoadPrivKey(filepath.Join(dataDir,"/keystore",name))
+
+		if err != nil {
+			return fmt.Errorf("failed to load private key: %v", err)
+		}
+
+		if err:= blockchain.SignTx(senderPrivKey, &tx);err != nil{
+			return fmt.Errorf("Failed to sign tx :%v",err)
+		}
+
+
+		if !blockchain.VerifyTx(&tx){
+			return fmt.Errorf("invalid signature")
 		}
 
 		chainPath := dataDir + "/chain.json"
@@ -79,7 +114,7 @@ var txAddCli = &cobra.Command{
 			pool = []blockchain.Transaction{}
 		}
 
-		pool = append(pool, blockchain.Transaction{Sender: txFrom, Recipient: txTo, Amount: txAmt})
+		pool = append(pool, tx)
 		if err := storage.SaveJSON(poolPath, pool); err != nil {
 			return err
 		}

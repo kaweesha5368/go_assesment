@@ -6,9 +6,10 @@ type Transaction struct {
     Recipient string `json:"recipient"`
     Amount    int64  `json:"amount"`
     Nonce     int64  `json:"nonce"`      // prevent replay
-   // PubKey    []byte `json:"pubkey"`     // compressed/uncompressed public key
-   //SigR      []byte `json:"sig_r"`      // ECDSA r
-   // SigS      []byte `json:"sig_s"`      // ECDSA s
+
+    PubKey    []byte `json:"pubkey"`     // compressed/uncompressed public key
+    SigR      []byte `json:"sig_r"`      // ECDSA r
+    SigS      []byte `json:"sig_s"`      // ECDSA s
 }
 
 type Block struct {
